@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>春分特別鑑定｜LINE読者限定</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
     --ink: #0d0b12;
@@ -21,7 +21,8 @@
   body {
     background-color: var(--ink);
     color: var(--paper);
-    font-family: 'Noto Serif JP', serif;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 16px;
     min-height: 100vh;
     overflow-x: hidden;
   }
@@ -136,17 +137,18 @@
   }
 
   .lead {
-    font-size: 13px;
+    font-size: 16px;
     line-height: 2.1;
     color: rgba(245,240,232,0.75);
     letter-spacing: 0.05em;
+    font-family: 'Noto Sans JP', sans-serif;
   }
 
   /* 価格ブロック */
   .price-block {
-    background: var(--mist);
-    border: 1px solid rgba(201,168,76,0.25);
-    border-radius: 2px;
+    background: rgba(10, 8, 18, 0.6);
+    border: 3px solid rgba(201,168,76,0.7);
+    border-radius: 4px;
     padding: 28px 32px;
     margin: 40px 0;
     text-align: center;
@@ -159,19 +161,20 @@
   }
 
   .price-normal {
-    font-size: 12px;
-    color: rgba(245,240,232,0.4);
+    font-size: 15px;
+    color: rgba(245,240,232,0.55);
     letter-spacing: 0.15em;
     text-decoration: line-through;
     margin-bottom: 4px;
   }
 
   .price-off {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 13px;
-    color: var(--crimson);
-    letter-spacing: 0.2em;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 16px;
+    color: #e05565;
+    letter-spacing: 0.15em;
     margin-bottom: 8px;
+    font-weight: 500;
   }
 
   .price-main {
@@ -189,8 +192,8 @@
   }
 
   .price-tax {
-    font-size: 11px;
-    color: rgba(245,240,232,0.4);
+    font-size: 14px;
+    color: rgba(245,240,232,0.6);
     margin-top: 6px;
     letter-spacing: 0.1em;
   }
@@ -217,9 +220,10 @@
   }
 
   .note-value {
-    font-size: 13px;
+    font-size: 15px;
     color: var(--paper);
-    line-height: 1.6;
+    line-height: 1.7;
+    font-family: 'Noto Sans JP', sans-serif;
   }
 
   /* フォーム */
@@ -252,10 +256,11 @@
 
   label {
     display: block;
-    font-size: 11px;
+    font-size: 13px;
     letter-spacing: 0.2em;
     color: var(--gold);
     margin-bottom: 10px;
+    font-family: 'Noto Sans JP', sans-serif;
   }
 
   label .required {
@@ -281,8 +286,8 @@
     border: 1px solid rgba(201,168,76,0.2);
     border-radius: 1px;
     color: var(--paper);
-    font-family: 'Noto Serif JP', serif;
-    font-size: 14px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 16px;
     padding: 14px 18px;
     outline: none;
     transition: border-color 0.3s ease, background 0.3s ease;
@@ -303,7 +308,7 @@
 
   input::placeholder, textarea::placeholder {
     color: rgba(245,240,232,0.2);
-    font-size: 13px;
+    font-size: 15px;
   }
 
   textarea {
@@ -475,6 +480,25 @@
     <div class="persona-name">おだんごch</div>
     <h1>春分特別鑑定<br><em>LINE読者限定</em></h1>
     <div class="divider"><span>✦</span></div>
+    <p style="font-family:'Cormorant Garamond',serif; font-size:20px; color:var(--gold-light); letter-spacing:0.05em; margin-bottom:12px;">
+      占星術＆プチ・タブロー
+    </p>
+    <p style="font-size:14px; color:rgba(245,240,232,0.6); letter-spacing:0.05em; margin-bottom:24px;">
+      〜2026年のあなたのトリセツ＆運勢鑑定〜
+    </p>
+    <div style="text-align:left; display:inline-block; margin-bottom:20px;">
+      <div style="font-size:14px; color:rgba(245,240,232,0.8); line-height:2.2; font-family:'Noto Sans JP',sans-serif;">
+        <div style="margin-bottom:6px;">
+          ✅ 小惑星まで含めた西洋占星術による、プチネイタル鑑定
+        </div>
+        <div style="margin-bottom:6px;">
+          ✅ ルノルマン・カードを用いた、プチ・タブロー運勢鑑定
+        </div>
+        <div>
+          ✅ 上記２つをセットにした、2026年の占いバリューセット
+        </div>
+      </div>
+    </div>
     <p class="lead">
       この鑑定は、LINEにご登録いただいた方だけへの<br>
       特別なご提供です。<br>
@@ -506,7 +530,7 @@
     </div>
     <div class="note-item">
       <div class="note-label">PAYMENT</div>
-      <div class="note-value">Square決済<br>（カード可）</div>
+      <div class="note-value">クレジットカード<br>各種QRコード決済</div>
     </div>
   </div>
 
@@ -581,6 +605,7 @@
     </a>
     <p class="payment-note">
       ※ 別タブでSquare決済ページが開きます<br>
+      ※ クレジットカード・PayPay・各種QRコード決済に対応<br>
       ※ お支払い完了後、確認メールが届きます<br>
       ※ 鑑定結果はご登録メールアドレスへお送りします
     </p>
