@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>春分特別鑑定｜LINE読者限定</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Serif+JP:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0b12;
+    --paper: #f5f0e8;
+    --gold: #c9a84c;
+    --gold-light: #e8d5a0;
+    --deep: #1a1528;
+    --mist: rgba(201,168,76,0.12);
+    --crimson: #8b2635;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background-color: var(--ink);
+    color: var(--paper);
+    font-family: 'Noto Serif JP', serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* 星空背景 */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 50%, rgba(60,30,90,0.4) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(30,20,60,0.5) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 100%, rgba(90,40,20,0.2) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .stars {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .star {
+    position: absolute;
+    border-radius: 50%;
+    background: white;
+    animation: twinkle var(--dur) ease-in-out infinite;
+    opacity: 0;
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0; }
+    50% { opacity: var(--op); }
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 60px 24px 100px;
+  }
+
+  /* ヘッダー */
+  .header {
+    text-align: center;
+    margin-bottom: 56px;
+    animation: fadeDown 1.2s ease forwards;
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .campaign-badge {
+    display: inline-block;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    padding: 6px 20px;
+    margin-bottom: 28px;
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  .persona-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--gold-light);
+    letter-spacing: 0.3em;
+    margin-bottom: 20px;
+    opacity: 0.8;
+  }
+
+  h1 {
+    font-family: 'Noto Serif JP', serif;
+    font-weight: 200;
+    font-size: clamp(26px, 5vw, 38px);
+    line-height: 1.7;
+    letter-spacing: 0.05em;
+    color: var(--paper);
+    margin-bottom: 24px;
+  }
+
+  h1 em {
+    font-style: normal;
+    color: var(--gold);
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 24px 0;
+  }
+
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+  }
+
+  .divider span {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    color: var(--gold);
+  }
+
+  .lead {
+    font-size: 13px;
+    line-height: 2.1;
+    color: rgba(245,240,232,0.75);
+    letter-spacing: 0.05em;
+  }
+
+  /* 価格ブロック */
+  .price-block {
+    background: var(--mist);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 2px;
+    padding: 28px 32px;
+    margin: 40px 0;
+    text-align: center;
+    animation: fadeUp 1.4s ease forwards;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .price-normal {
+    font-size: 12px;
+    color: rgba(245,240,232,0.4);
+    letter-spacing: 0.15em;
+    text-decoration: line-through;
+    margin-bottom: 4px;
+  }
+
+  .price-off {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    color: var(--crimson);
+    letter-spacing: 0.2em;
+    margin-bottom: 8px;
+  }
+
+  .price-main {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 52px;
+    font-weight: 300;
+    color: var(--gold);
+    letter-spacing: 0.02em;
+    line-height: 1;
+  }
+
+  .price-main span {
+    font-size: 20px;
+    vertical-align: super;
+  }
+
+  .price-tax {
+    font-size: 11px;
+    color: rgba(245,240,232,0.4);
+    margin-top: 6px;
+    letter-spacing: 0.1em;
+  }
+
+  /* 納期・特記 */
+  .notes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 32px 0;
+  }
+
+  .note-item {
+    border: 1px solid rgba(201,168,76,0.15);
+    padding: 16px;
+    text-align: center;
+  }
+
+  .note-label {
+    font-size: 10px;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    margin-bottom: 6px;
+  }
+
+  .note-value {
+    font-size: 13px;
+    color: var(--paper);
+    line-height: 1.6;
+  }
+
+  /* フォーム */
+  .form-section {
+    margin-top: 56px;
+  }
+
+  .form-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 300;
+    color: var(--gold-light);
+    letter-spacing: 0.2em;
+    margin-bottom: 32px;
+    text-align: center;
+  }
+
+  .form-group {
+    margin-bottom: 28px;
+    animation: fadeUp 1.6s ease forwards;
+    opacity: 0;
+  }
+
+  .form-group:nth-child(1) { animation-delay: 0.1s; }
+  .form-group:nth-child(2) { animation-delay: 0.2s; }
+  .form-group:nth-child(3) { animation-delay: 0.3s; }
+  .form-group:nth-child(4) { animation-delay: 0.4s; }
+  .form-group:nth-child(5) { animation-delay: 0.5s; }
+  .form-group:nth-child(6) { animation-delay: 0.6s; }
+
+  label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+
+  label .required {
+    color: var(--crimson);
+    margin-left: 4px;
+  }
+
+  label .hint {
+    color: rgba(245,240,232,0.4);
+    font-size: 10px;
+    margin-left: 8px;
+    letter-spacing: 0.05em;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="date"],
+  input[type="time"],
+  textarea,
+  select {
+    width: 100%;
+    background: rgba(245,240,232,0.04);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 1px;
+    color: var(--paper);
+    font-family: 'Noto Serif JP', serif;
+    font-size: 14px;
+    padding: 14px 18px;
+    outline: none;
+    transition: border-color 0.3s ease, background 0.3s ease;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator,
+  input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.7) sepia(1) saturate(2) hue-rotate(10deg);
+    cursor: pointer;
+  }
+
+  input:focus, textarea:focus, select:focus {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.06);
+  }
+
+  input::placeholder, textarea::placeholder {
+    color: rgba(245,240,232,0.2);
+    font-size: 13px;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 140px;
+    line-height: 1.9;
+  }
+
+  .time-unknown {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .time-unknown input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--gold);
+    cursor: pointer;
+  }
+
+  .time-unknown label {
+    font-size: 11px;
+    color: rgba(245,240,232,0.5);
+    margin: 0;
+    cursor: pointer;
+    letter-spacing: 0.1em;
+  }
+
+  /* 送信ボタン */
+  .submit-area {
+    margin-top: 48px;
+    text-align: center;
+  }
+
+  .submit-btn {
+    display: inline-block;
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-family: 'Noto Serif JP', serif;
+    font-size: 14px;
+    letter-spacing: 0.25em;
+    padding: 20px 56px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .submit-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+    z-index: -1;
+  }
+
+  .submit-btn:hover {
+    color: var(--ink);
+  }
+
+  .submit-btn:hover::before {
+    transform: scaleX(1);
+  }
+
+  .submit-note {
+    font-size: 11px;
+    color: rgba(245,240,232,0.35);
+    margin-top: 16px;
+    line-height: 1.9;
+    letter-spacing: 0.05em;
+  }
+
+  /* 完了画面 */
+  .complete-screen {
+    display: none;
+    text-align: center;
+    padding: 60px 24px;
+    animation: fadeUp 0.8s ease forwards;
+  }
+
+  .complete-icon {
+    font-size: 48px;
+    margin-bottom: 24px;
+  }
+
+  .complete-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+    margin-bottom: 16px;
+  }
+
+  .complete-text {
+    font-size: 13px;
+    color: rgba(245,240,232,0.7);
+    line-height: 2.2;
+    margin-bottom: 40px;
+  }
+
+  .payment-btn {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--ink);
+    font-family: 'Noto Serif JP', serif;
+    font-size: 14px;
+    letter-spacing: 0.2em;
+    padding: 20px 48px;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: opacity 0.3s;
+  }
+
+  .payment-btn:hover { opacity: 0.85; }
+
+  .payment-note {
+    font-size: 11px;
+    color: rgba(245,240,232,0.35);
+    margin-top: 20px;
+    line-height: 2;
+  }
+
+  /* エラー表示 */
+  .error-msg {
+    color: #e06070;
+    font-size: 11px;
+    margin-top: 6px;
+    letter-spacing: 0.05em;
+    display: none;
+  }
+
+  .error-msg.show { display: block; }
+
+  input.error, textarea.error { border-color: #e06070; }
+
+  /* フッター */
+  footer {
+    text-align: center;
+    margin-top: 80px;
+    font-size: 10px;
+    color: rgba(245,240,232,0.2);
+    letter-spacing: 0.15em;
+  }
+
+  @media (max-width: 480px) {
+    .notes { grid-template-columns: 1fr; }
+    .price-main { font-size: 42px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 星空 -->
+<div class="stars" id="stars"></div>
+
+<div class="container">
+
+  <!-- ヘッダー -->
+  <div class="header">
+    <div class="campaign-badge">✦ SPRING EQUINOX SPECIAL ✦</div>
+    <div class="persona-name">おだんごch</div>
+    <h1>春分特別鑑定<br><em>LINE読者限定</em></h1>
+    <div class="divider"><span>✦</span></div>
+    <p class="lead">
+      この鑑定は、LINEにご登録いただいた方だけへの<br>
+      特別なご提供です。<br>
+      春分の節目に、あなたの星と向き合う時間を。
+    </p>
+  </div>
+
+  <!-- 価格 -->
+  <div class="price-block">
+    <div class="price-normal">通常価格 ¥8,000</div>
+    <div class="price-off">▶ LINE読者限定 15% OFF</div>
+    <div class="price-main"><span>¥</span>6,800</div>
+    <div class="price-tax">（税込）</div>
+  </div>
+
+  <!-- 特記事項 -->
+  <div class="notes">
+    <div class="note-item">
+      <div class="note-label">DELIVERY</div>
+      <div class="note-value">お申込みから<br>7営業日以内</div>
+    </div>
+    <div class="note-item">
+      <div class="note-label">FORMAT</div>
+      <div class="note-value">メール鑑定<br>（PDF or テキスト）</div>
+    </div>
+    <div class="note-item">
+      <div class="note-label">INQUIRY</div>
+      <div class="note-value">ヒアリングなし<br>買い切り</div>
+    </div>
+    <div class="note-item">
+      <div class="note-label">PAYMENT</div>
+      <div class="note-value">Square決済<br>（カード可）</div>
+    </div>
+  </div>
+
+  <!-- フォーム -->
+  <div class="form-section" id="formSection">
+    <div class="form-title">— お申込みフォーム —</div>
+
+    <div class="form-group">
+      <label>お名前（ニックネーム可）<span class="required">*</span></label>
+      <input type="text" id="name" placeholder="例：さくら / 山田花子" />
+      <div class="error-msg" id="nameError">お名前を入力してください</div>
+    </div>
+
+    <div class="form-group">
+      <label>生年月日<span class="required">*</span></label>
+      <input type="date" id="birthdate" />
+      <div class="error-msg" id="birthdateError">生年月日を入力してください</div>
+    </div>
+
+    <div class="form-group">
+      <label>
+        出生時刻<span class="required">*</span>
+        <span class="hint">不明な場合は下のチェックをONに</span>
+      </label>
+      <input type="time" id="birthtime" />
+      <div class="time-unknown">
+        <input type="checkbox" id="timeUnknown" onchange="toggleTime(this)" />
+        <label for="timeUnknown">出生時刻が不明です</label>
+      </div>
+      <div class="error-msg" id="birthtimeError">出生時刻を入力するか、不明にチェックを入れてください</div>
+    </div>
+
+    <div class="form-group">
+      <label>出生地<span class="required">*</span><span class="hint">都道府県・市区町村まで</span></label>
+      <input type="text" id="birthplace" placeholder="例：東京都渋谷区 / 北海道札幌市" />
+      <div class="error-msg" id="birthplaceError">出生地を入力してください</div>
+    </div>
+
+    <div class="form-group">
+      <label>メールアドレス<span class="required">*</span><span class="hint">鑑定結果の送り先</span></label>
+      <input type="email" id="email" placeholder="example@email.com" />
+      <div class="error-msg" id="emailError">正しいメールアドレスを入力してください</div>
+    </div>
+
+    <div class="form-group">
+      <label>ご相談内容<span class="required">*</span><span class="hint">自由にお書きください</span></label>
+      <textarea id="message" placeholder="例：仕事と恋愛について、今後の方向性を知りたいです。転職を検討していて…"></textarea>
+      <div class="error-msg" id="messageError">ご相談内容を入力してください</div>
+    </div>
+
+    <div class="submit-area">
+      <button class="submit-btn" onclick="handleSubmit()">申し込み内容を確認する</button>
+      <p class="submit-note">
+        送信後、Square決済ページへご案内します。<br>
+        お支払い完了をもって、お申込み確定となります。
+      </p>
+    </div>
+  </div>
+
+  <!-- 完了画面 -->
+  <div class="complete-screen" id="completeScreen">
+    <div class="complete-icon">✦</div>
+    <div class="complete-title">ありがとうございます</div>
+    <p class="complete-text">
+      お申込み内容を受け付けました。<br>
+      次のステップは、お支払いの完了です。<br><br>
+      下のボタンからSquare決済ページへお進みください。<br>
+      お支払い確認後、鑑定を開始いたします。
+    </p>
+    <a href="https://square.link/u/mpc151nC" class="payment-btn" target="_blank">
+      ¥6,800 のお支払いへ進む
+    </a>
+    <p class="payment-note">
+      ※ 別タブでSquare決済ページが開きます<br>
+      ※ お支払い完了後、確認メールが届きます<br>
+      ※ 鑑定結果はご登録メールアドレスへお送りします
+    </p>
+  </div>
+
+  <footer>
+    <p>© おだんご堂 All rights reserved.</p>
+  </footer>
+
+</div>
+
+<script>
+  // 星生成
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 120; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 2 + 0.5;
+    s.style.cssText = `
+      width:${size}px; height:${size}px;
+      top:${Math.random()*100}%; left:${Math.random()*100}%;
+      --dur:${2+Math.random()*4}s;
+      --op:${0.3+Math.random()*0.7};
+      animation-delay:${Math.random()*5}s;
+    `;
+    starsEl.appendChild(s);
+  }
+
+  // 出生時刻不明トグル
+  function toggleTime(cb) {
+    const timeInput = document.getElementById('birthtime');
+    timeInput.disabled = cb.checked;
+    timeInput.style.opacity = cb.checked ? '0.3' : '1';
+    if (cb.checked) timeInput.value = '';
+  }
+
+  // バリデーション
+  function validate() {
+    let ok = true;
+
+    const fields = [
+      { id: 'name', errId: 'nameError', check: v => v.trim().length > 0 },
+      { id: 'birthdate', errId: 'birthdateError', check: v => v !== '' },
+      { id: 'birthplace', errId: 'birthplaceError', check: v => v.trim().length > 0 },
+      { id: 'email', errId: 'emailError', check: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) },
+      { id: 'message', errId: 'messageError', check: v => v.trim().length > 0 },
+    ];
+
+    fields.forEach(f => {
+      const el = document.getElementById(f.id);
+      const err = document.getElementById(f.errId);
+      if (!f.check(el.value)) {
+        el.classList.add('error');
+        err.classList.add('show');
+        ok = false;
+      } else {
+        el.classList.remove('error');
+        err.classList.remove('show');
+      }
+    });
+
+    // 出生時刻チェック
+    const timeUnknown = document.getElementById('timeUnknown').checked;
+    const birthtime = document.getElementById('birthtime').value;
+    const timeErr = document.getElementById('birthtimeError');
+    const timeInput = document.getElementById('birthtime');
+    if (!timeUnknown && birthtime === '') {
+      timeInput.classList.add('error');
+      timeErr.classList.add('show');
+      ok = false;
+    } else {
+      timeInput.classList.remove('error');
+      timeErr.classList.remove('show');
+    }
+
+    return ok;
+  }
+
+  // Googleスプレッドシートへ送信（GASエンドポイント）
+  async function sendToSheet(data) {
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbzEJQ-2liNbmD1EIhqoaDSy0LBfjmvmyLffnhiZSYOGFS1NxRNCU2DHJuMrLpH2U6qvnA/exec';
+    try {
+      await fetch(GAS_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+    } catch(e) {
+      console.log('Sheet送信エラー（no-corsのため正常）', e);
+    }
+  }
+
+  async function handleSubmit() {
+    if (!validate()) {
+      window.scrollTo({ top: document.querySelector('.error').offsetTop - 80, behavior: 'smooth' });
+      return;
+    }
+
+    const btn = document.querySelector('.submit-btn');
+    btn.textContent = '送信中…';
+    btn.style.opacity = '0.6';
+    btn.disabled = true;
+
+    const timeUnknown = document.getElementById('timeUnknown').checked;
+    const data = {
+      timestamp: new Date().toLocaleString('ja-JP'),
+      name: document.getElementById('name').value.trim(),
+      birthdate: document.getElementById('birthdate').value,
+      birthtime: timeUnknown ? '不明' : document.getElementById('birthtime').value,
+      birthplace: document.getElementById('birthplace').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      message: document.getElementById('message').value.trim(),
+      campaign: '春分特別・LINE読者限定',
+      price: '¥6,800'
+    };
+
+    await sendToSheet(data);
+
+    // 画面切替
+    document.getElementById('formSection').style.display = 'none';
+    const complete = document.getElementById('completeScreen');
+    complete.style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+</body>
+</html>
