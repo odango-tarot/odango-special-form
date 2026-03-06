@@ -522,7 +522,7 @@
     </div>
     <div class="note-item">
       <div class="note-label">FORMAT</div>
-      <div class="note-value">メール鑑定<br>（PDF or テキスト）</div>
+      <div class="note-value">メール鑑定<br>（テキスト形式）</div>
     </div>
     <div class="note-item">
       <div class="note-label">INQUIRY</div>
@@ -547,9 +547,9 @@
     </div>
 
     <div class="form-group">
-      <label>お名前（ニックネーム可）<span class="required">*</span></label>
+      <label>LINEお友達名<span class="required">*</span><span class="hint">LINEに登録されているお名前</span></label>
       <input type="text" id="name" placeholder="例：さくら / 山田花子" />
-      <div class="error-msg" id="nameError">お名前を入力してください</div>
+      <div class="error-msg" id="nameError">LINEお友達名を入力してください</div>
     </div>
 
     <div class="form-group">
@@ -579,8 +579,20 @@
 
     <div class="form-group">
       <label>メールアドレス<span class="required">*</span><span class="hint">鑑定結果の送り先</span></label>
-      <input type="email" id="email" placeholder="example@email.com" />
+      <input type="email" id="email" placeholder="example@gmail.com / example@yahoo.co.jp" />
+      <p style="font-size:12px; color:#e05565; margin-top:8px; line-height:1.8; letter-spacing:0.03em;">
+        ⚠️ キャリアメール（docomo / au / SoftBank等）は不達になる場合があります。<br>Gmail・Yahoo!メール等のご利用を推奨します。
+      </p>
       <div class="error-msg" id="emailError">正しいメールアドレスを入力してください</div>
+    </div>
+
+    <div class="form-group">
+      <label>携帯電話番号<span class="required">*</span><span class="hint">SMS連絡用（不達時のみ使用）</span></label>
+      <input type="tel" id="phone" placeholder="例：09012345678（ハイフンなし）" />
+      <p style="font-size:12px; color:rgba(245,240,232,0.4); margin-top:8px; line-height:1.8; letter-spacing:0.03em;">
+        ※ メールが届かない場合のみ、SMSにてご連絡します。
+      </p>
+      <div class="error-msg" id="phoneError">携帯電話番号を入力してください</div>
     </div>
 
     <div class="form-group">
@@ -661,6 +673,7 @@
       birthtime: data.birthtime === '不明' ? '' : data.birthtime,
       birthplace: data.birthplace,
       email: data.email,
+      phone: data.phone,
       timeUnknown: data.birthtime === '不明'
     };
     localStorage.setItem(SAVE_KEY, JSON.stringify(saved));
@@ -675,6 +688,7 @@
       if (saved.birthdate) document.getElementById('birthdate').value = saved.birthdate;
       if (saved.birthplace) document.getElementById('birthplace').value = saved.birthplace;
       if (saved.email) document.getElementById('email').value = saved.email;
+      if (saved.phone) document.getElementById('phone').value = saved.phone;
       if (saved.timeUnknown) {
         const cb = document.getElementById('timeUnknown');
         cb.checked = true;
@@ -689,7 +703,7 @@
   // 保存データをリセット
   function resetFormData() {
     localStorage.removeItem(SAVE_KEY);
-    ['name','birthdate','birthtime','birthplace','email'].forEach(id => {
+    ['name','birthdate','birthtime','birthplace','email','phone'].forEach(id => {
       document.getElementById(id).value = '';
     });
     const cb = document.getElementById('timeUnknown');
@@ -705,7 +719,7 @@
     loadFormData();
 
     // リアルタイム自動保存（入力のたびに保存）
-    const autoSaveFields = ['name', 'birthdate', 'birthtime', 'birthplace', 'email'];
+    const autoSaveFields = ['name', 'birthdate', 'birthtime', 'birthplace', 'email', 'phone'];
     autoSaveFields.forEach(id => {
       document.getElementById(id).addEventListener('input', autoSave);
       document.getElementById(id).addEventListener('change', autoSave);
@@ -723,6 +737,7 @@
         birthtime: timeUnknown ? '' : document.getElementById('birthtime').value,
         birthplace: document.getElementById('birthplace').value.trim(),
         email: document.getElementById('email').value.trim(),
+        phone: document.getElementById('phone').value.replace(/-/g, ''),
         timeUnknown: timeUnknown
       };
       localStorage.setItem(SAVE_KEY, JSON.stringify(saved));
@@ -762,6 +777,7 @@
       { id: 'birthdate', errId: 'birthdateError', check: v => v !== '' },
       { id: 'birthplace', errId: 'birthplaceError', check: v => v.trim().length > 0 },
       { id: 'email', errId: 'emailError', check: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) },
+      { id: 'phone', errId: 'phoneError', check: v => /^0\d{9,10}$/.test(v.replace(/-/g, '')) },
       { id: 'message', errId: 'messageError', check: v => v.trim().length > 0 },
     ];
 
@@ -829,6 +845,7 @@
       birthtime: timeUnknown ? '不明' : document.getElementById('birthtime').value,
       birthplace: document.getElementById('birthplace').value.trim(),
       email: document.getElementById('email').value.trim(),
+      phone: document.getElementById('phone').value.replace(/-/g, ''),
       message: document.getElementById('message').value.trim(),
       campaign: '春分特別・LINE読者限定',
       price: '¥6,800'
