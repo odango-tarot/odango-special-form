@@ -902,16 +902,13 @@
   }
 
   // Googleスプレッドシートへ送信（GASエンドポイント）
-  async function sendToSheet(data) {
+async function sendToSheet(data) {
     const GAS_URL = 'https://script.google.com/macros/s/AKfycbwXq95MyJnhT_aPGI8lTbOQxNQB_3Bnmqu9u-SGdxQ51cF3pfaGrMWeitmfITFg9jCy1Q/exec';
-    return new Promise((resolve) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open('POST', GAS_URL);
-      xhr.setRequestHeader('Content-Type', 'text/plain');
-      xhr.onload = () => resolve();
-      xhr.onerror = () => resolve();
-      xhr.send(JSON.stringify(data));
-    });
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', GAS_URL);
+    xhr.setRequestHeader('Content-Type', 'text/plain');
+    xhr.timeout = 8000;
+    xhr.send(JSON.stringify(data));
   }
 
   async function handleSubmit() {
@@ -929,8 +926,6 @@
     btn.disabled = true;
 
     const timeUnknown = document.getElementById('timeUnknown').checked;
-
-    // ご相談内容：選択ボタン＋任意テキスト
     const selectedConcerns = [...document.querySelectorAll('.concern-btn.selected')]
       .map(btn => btn.dataset.value).join('、');
     const extraMessage = document.getElementById('messageExtra').value.trim();
@@ -949,16 +944,14 @@
       price: '¥6,800'
     };
 
-    sendToSheet(data);
-
-    // 入力情報を保存
+    // 先に画面切替（送信はバックグラウンド）
     saveFormData(data);
-
-    // 画面切替
     document.getElementById('formSection').style.display = 'none';
-    const complete = document.getElementById('completeScreen');
-    complete.style.display = 'block';
+    document.getElementById('completeScreen').style.display = 'block';
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // バックグラウンドで送信
+    sendToSheet(data);
   }
 </script>
 
