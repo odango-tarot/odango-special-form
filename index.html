@@ -673,14 +673,28 @@
     </div>
   </div>
 
-  <!-- 完了画面 -->
-  <div class="complete-screen" id="completeScreen">
-    <div class="complete-icon">✦</div>
-    <div class="complete-title">フォームのご入力を受け付けました</div>
-    <p class="complete-text">
-      次のステップは、お支払いの完了です。<br>
-      お支払い確認後、鑑定を開始いたします。
-    </p>
+<!-- 完了画面 -->
+<div class="complete-screen" id="completeScreen">
+  <div style="text-align:center; padding: 20px 0 40px;">
+    <div style="font-size:48px; margin-bottom:16px;">🌟</div>
+    <div style="
+      display:inline-block;
+      background: rgba(201,168,76,0.15);
+      border: 2px solid var(--gold);
+      padding: 12px 32px;
+      margin-bottom: 32px;
+      font-family:'Cormorant Garamond',serif;
+      font-size:13px;
+      letter-spacing:0.3em;
+      color:var(--gold);
+    ">✦ お申込みを受け付けました ✦</div>
+  </div>
+  <div class="complete-title">あとはお支払いだけ！</div>
+  <p class="complete-text">
+    フォームのご入力が完了しました。<br>
+    <strong style="color:var(--gold-light);">下のボタンからお支払いをお済ませください。</strong><br><br>
+    お支払い確認後、鑑定を開始いたします。
+  </p>
 
     <!-- 決済ボタン横並び -->
     <div style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin-bottom:24px;">
@@ -946,6 +960,9 @@ async function sendToSheet(data) {
 
     // 先に画面切替（送信はバックグラウンド）
     saveFormData(data);
+    document.querySelector('.header').style.display = 'none';
+    document.querySelector('.price-block').style.display = 'none';
+    document.querySelector('.notes').style.display = 'none';
     document.getElementById('formSection').style.display = 'none';
     document.getElementById('completeScreen').style.display = 'block';
     window.scrollTo({ top: 0, behavior: 'smooth' });
