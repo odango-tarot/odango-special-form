@@ -50,7 +50,6 @@
     position: relative;
     z-index: 1;
     width: 100%;
-    max-height: 600px;
     overflow: hidden;
     line-height: 0;
   }
@@ -58,10 +57,9 @@
     width: 100%;
     height: 600px;
     object-fit: cover;
-    object-position: center top;
+    object-position: center center;
     display: block;
   }
-  /* 画像未設定時のプレースホルダー */
   .hero-image-placeholder {
     width: 100%;
     height: 600px;
@@ -76,7 +74,6 @@
     color: rgba(200,168,75,0.4);
     letter-spacing: 0.3em;
   }
-  /* 画像下フェード */
   .hero-image-wrap::after {
     content: '';
     position: absolute;
@@ -115,12 +112,14 @@
   .hero-title {
     font-family: 'Cormorant Garamond', serif;
     font-weight: 400;
-    font-size: clamp(2.2rem, 6vw, 3.4rem);
+    font-size: clamp(1.8rem, 5vw, 3.4rem);
     line-height: 1.25;
     color: var(--gold-pale);
     letter-spacing: 0.03em;
     margin-bottom: 6px;
     text-shadow: 0 0 40px rgba(200,168,75,0.2);
+    word-break: keep-all;
+    overflow-wrap: break-word;
   }
   .hero-title .sub-line {
     font-style: italic;
@@ -181,7 +180,7 @@
     background: linear-gradient(to right, transparent, var(--gold), transparent);
   }
 
-  /* ===== PRブロック：春分×海王星 ===== */
+  /* ===== PRブロック ===== */
   .pr-block {
     background: rgba(13,11,18,0.6);
     border: 1px solid rgba(200,168,75,0.2);
@@ -227,7 +226,6 @@
   }
   .pr-block-body p + p { margin-top: 14px; }
 
-  /* 折りたたみ詳細 */
   .pr-detail {
     margin-top: 18px;
     padding-top: 18px;
@@ -270,7 +268,7 @@
     letter-spacing: 0.5em;
   }
 
-  /* ===== おだんごプロフィールブロック ===== */
+  /* ===== プロフィールブロック ===== */
   .profile-block {
     background: rgba(200,168,75,0.04);
     border: 1px solid rgba(200,168,75,0.18);
@@ -490,14 +488,13 @@
     .price-info-value { font-size: 0.88rem; padding: 10px 10px; }
     .form-row { grid-template-columns: 1fr; }
     .form-checkbox-group { white-space: normal; }
-    .hero-image-wrap img, .hero-image-placeholder { height: 220px; }
+    .hero-image-wrap img, .hero-image-placeholder { height: 400px; }
     .hero-image-wrap::after { height: 60px; }
   }
 </style>
 </head>
 <body>
 
-<!-- 星空キャンバス -->
 <canvas id="starCanvas"></canvas>
 
 <!-- 完了画面 -->
@@ -529,13 +526,10 @@
 <!-- メインビュー -->
 <div id="main-view">
 
-  <!-- ヘッダー画像 -->
   <div class="hero-image-wrap">
-    <!-- hero.webp を同じフォルダに置くと表示されます -->
     <img src="hero.png" alt="プログレス・リーディング 海王星牡羊座の火種" onerror="this.parentElement.innerHTML='<div class=\'hero-image-placeholder\'><span>PROGRESS READING 2026</span></div>'">
   </div>
 
-  <!-- ヒーローテキスト -->
   <div class="hero">
     <div class="hero-badge">Progress Reading — Spring Equinox 2026</div>
     <p class="hero-brand">おだんごch &nbsp;✦&nbsp; LINE読者限定</p>
@@ -819,7 +813,6 @@
 </footer>
 
 <script>
-/* ===== 星空キャンバス（軽量版）===== */
 (function() {
   const canvas = document.getElementById('starCanvas');
   const ctx = canvas.getContext('2d');
@@ -854,9 +847,7 @@
       const a = s.alpha * (0.6 + 0.4 * Math.sin(t * s.speed + s.phase));
       ctx.beginPath();
       ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-      ctx.fillStyle = s.gold
-        ? `rgba(200,168,75,${a})`
-        : `rgba(255,255,255,${a})`;
+      ctx.fillStyle = s.gold ? `rgba(200,168,75,${a})` : `rgba(255,255,255,${a})`;
       ctx.fill();
     });
     raf = requestAnimationFrame(draw);
@@ -873,7 +864,6 @@
   });
 })();
 
-/* ===== PRブロック折りたたみ ===== */
 function toggleDetail(btn) {
   const body = btn.nextElementSibling;
   const isOpen = body.classList.contains('open');
@@ -881,7 +871,6 @@ function toggleDetail(btn) {
   btn.classList.toggle('open', !isOpen);
 }
 
-/* ===== フォーム ===== */
 const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwXq95MyJnhT_aPGI8lTbOQxNQB_3Bnmqu9u-SGdxQ51cF3pfaGrMWeitmfITFg9jCy1Q/exec';
 const STORAGE_KEY = 'odango_form_v1';
 const FIELDS = ['lineName','birthday','birthtime','birthplace','email','phone','memo'];
