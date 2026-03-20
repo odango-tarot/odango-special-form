@@ -848,16 +848,21 @@ document.getElementById('mainForm').addEventListener('submit', function(e) {
     concerns, campaign: 'LINE読者15%OFF',
     memo: document.getElementById('memo').value.trim(),
     timestamp: new Date().toISOString()
-  };
-  const xhr = new XMLHttpRequest();
-  xhr.open('POST', WEBHOOK_URL, true);
-  xhr.setRequestHeader('Content-Type', 'application/json');
-  xhr.onload = xhr.onerror = function() {
+};
+  fetch(WEBHOOK_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  }).then(() => {
     try { localStorage.removeItem(STORAGE_KEY); } catch(e){}
     decrementSlot();
     showCompletion();
-  };
-  xhr.send(JSON.stringify(payload));
+  }).catch(() => {
+    try { localStorage.removeItem(STORAGE_KEY); } catch(e){}
+    decrementSlot();
+    showCompletion();
+  });
 });
 
 function showCompletion() {
